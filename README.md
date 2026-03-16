@@ -247,4 +247,4 @@ https://github.com/rocmeseguer/EA-Exercise-RestAPI.git
 
 ## Assistència amb IA
 
-S'ha utilitzat assistència d'IA per ajudar en l'ordre dels passos de la resolució i en alguns dubtes tècnics durant el desenvolupament.
+S'ha utilitzat assistència d'IA (ChatGpt) per ajudar en l'ordre dels passos de la resolució i en alguns dubtes tècnics durant el desenvolupament.
