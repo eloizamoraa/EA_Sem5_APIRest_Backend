@@ -50,18 +50,23 @@ const deleteOrganizacion = async (req: Request, res: Response, next: NextFunctio
         return res.status(500).json({ error });
     }
 };
-
-const getOrganizacionUsers = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
+const getOrganizacionUsers = async (
+    req: Request<{ organizacionId: string }>,
+    res: Response
+): Promise<void> => {
     try {
-        const org = await OrganizacionService.getOrganizationWithUsers(req.params.id);
+        const org = await OrganizacionService.getOrganizationWithUsers(req.params.organizacionId);
+
         if (!org) {
             res.status(404).json({ message: 'Organization not found' });
             return;
         }
+
         res.status(200).json(org);
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 
 export default { createOrganizacion, readOrganizacion, readAll, updateOrganizacion, deleteOrganizacion, getOrganizacionUsers };
