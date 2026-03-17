@@ -77,7 +77,7 @@ router.post('/', ValidateJoi(Schemas.organizacion.create), controller.createOrga
  *       404:
  *         description: Organización no encontrada
  */
-router.get('/organizations/:id/users', controller.getOrganizacionUsers);
+router.get('/:organizacionId/users', controller.getOrganizacionUsers);
 /**
  * @openapi
  * /organizaciones/{organizacionId}:

@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema, Types } from 'mongoose';
 import { IUsuario, IUsuarioModel } from './Usuario';
-import Organizacion from '../services/Organizacion';
+
 
 export interface IOrganizacion {
     name: string;
@@ -12,7 +12,7 @@ export interface IOrganizacionModel extends IOrganizacion, Document {}
 const OrganizacionSchema: Schema = new Schema(
     {
         name: { type: String, required: true },
-        users: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+        users: [{ type: Schema.Types.ObjectId, ref: 'Usuario' }]
 
     },
     {

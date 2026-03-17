@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Organizacion, { IOrganizacionModel, IOrganizacion } from '../models/Organizacion';
+import '../models/Usuario'; 
 
 const createOrganizacion = async (data: Partial<IOrganizacion>): Promise<IOrganizacionModel> => {
     const organizacion = new Organizacion({
@@ -19,9 +20,10 @@ export const getOrganizationWithUsers = async (id: string): Promise<IOrganizacio
         .lean();
 };
 
-const getAllOrganizaciones = async (): Promise<IOrganizacionModel[]> => {
-    
-    return await Organizacion.find();
+const getAllOrganizaciones = async (): Promise<IOrganizacion[]> => {
+    return await Organizacion.find()
+        .populate('users')
+        .lean();
 };
 
 const updateOrganizacion = async (organizacionId: string, data: Partial<IOrganizacion>): Promise<IOrganizacionModel | null> => {

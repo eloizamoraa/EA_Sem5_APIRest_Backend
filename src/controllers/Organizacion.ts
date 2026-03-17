@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import OrganizacionService from '../services/Organizacion';
+import Usuario from '../models/Usuario';
 
 const createOrganizacion = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -55,14 +56,12 @@ const getOrganizacionUsers = async (
     res: Response
 ): Promise<void> => {
     try {
-        const org = await OrganizacionService.getOrganizationWithUsers(req.params.organizacionId);
+        const { organizacionId } = req.params;
 
-        if (!org) {
-            res.status(404).json({ message: 'Organization not found' });
-            return;
-        }
+        const users = await Usuario.find({ organizacion: organizacionId });
 
-        res.status(200).json(org);
+        res.status(200).json(users);
+
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' });
     }

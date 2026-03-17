@@ -1,12 +1,22 @@
 import mongoose from 'mongoose';
 import Usuario, { IUsuarioModel, IUsuario } from '../models/Usuario';
+import Organizacion from '../models/Organizacion';
 
 const createUsuario = async (data: Partial<IUsuario>): Promise<IUsuarioModel> => {
     const usuario = new Usuario({
         _id: new mongoose.Types.ObjectId(),
         ...data
     });
-    return await usuario.save();
+
+    const savedUser = await usuario.save();
+
+    if (savedUser.organizacion) {
+        await Organizacion.findByIdAndUpdate(savedUser.organizacion, {
+            $addToSet: { users: savedUser._id } 
+        });
+    }
+
+    return savedUser;
 };
 
 const getUsuario = async (usuarioId: string): Promise<IUsuarioModel | null> => {
