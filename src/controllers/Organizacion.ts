@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import mongoose from 'mongoose';
 import OrganizacionService from '../services/Organizacion';
-import Usuario from '../models/Usuario';
 
 const createOrganizacion = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -58,7 +56,12 @@ const getOrganizacionUsers = async (
     try {
         const { organizacionId } = req.params;
 
-        const users = await Usuario.find({ organizacion: organizacionId });
+        const users = await OrganizacionService.getOrganizacionUsers(organizacionId);
+
+        if (!users) {
+            res.status(404).json({ message: 'organizacion not found' });
+            return;
+        }
 
         res.status(200).json(users);
 
@@ -67,5 +70,52 @@ const getOrganizacionUsers = async (
     }
 };
 
+const addUsuarioToOrganizacion = async (
+    req: Request<{ organizacionId: string; usuarioId: string }>,
+    res: Response
+): Promise<void> => {
+    try {
+        const { organizacionId, usuarioId } = req.params;
+        const usuario = await OrganizacionService.addUserToOrganizacion(organizacionId, usuarioId);
 
-export default { createOrganizacion, readOrganizacion, readAll, updateOrganizacion, deleteOrganizacion, getOrganizacionUsers };
+        if (!usuario) {
+            res.status(404).json({ message: 'organizacion or usuario not found' });
+            return;
+        }
+
+        res.status(200).json(usuario);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+const removeUsuarioFromOrganizacion = async (
+    req: Request<{ organizacionId: string; usuarioId: string }>,
+    res: Response
+): Promise<void> => {
+    try {
+        const { organizacionId, usuarioId } = req.params;
+        const usuario = await OrganizacionService.removeUserFromOrganizacion(organizacionId, usuarioId);
+
+        if (!usuario) {
+            res.status(404).json({ message: 'organizacion or usuario not found' });
+            return;
+        }
+
+        res.status(200).json(usuario);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
+export default {
+    createOrganizacion,
+    readOrganizacion,
+    readAll,
+    updateOrganizacion,
+    deleteOrganizacion,
+    getOrganizacionUsers,
+    addUsuarioToOrganizacion,
+    removeUsuarioFromOrganizacion
+};

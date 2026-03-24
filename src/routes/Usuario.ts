@@ -1,6 +1,7 @@
 import express from 'express';
 import controller from '../controllers/Usuario';
 import { Schemas, ValidateJoi } from '../middleware/Joi';
+import { authorizeRoles, verifyToken } from '../middleware/Auth';
 
 const router = express.Router();
 
@@ -74,6 +75,12 @@ const router = express.Router();
  *         description: Validación fallida (Joi)
  */
 router.post('/', ValidateJoi(Schemas.usuario.create), controller.createUsuario);
+
+router.post('/login', ValidateJoi(Schemas.usuario.login), controller.login);
+
+router.get('/profile', verifyToken, controller.profile);
+
+router.get('/admin', verifyToken, authorizeRoles('admin'), controller.admin);
 
 /**
  * @openapi

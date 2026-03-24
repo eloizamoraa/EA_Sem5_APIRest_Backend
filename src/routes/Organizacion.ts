@@ -60,7 +60,7 @@ router.post('/', ValidateJoi(Schemas.organizacion.create), controller.createOrga
 
 /**
  * @openapi
- * /organizaciones/{organizacionId}/users:
+ * /organizaciones/{organizacionId}/usuarios:
  *   get:
  *     summary: Obtiene los usuarios de una organización
  *     tags: [Organizaciones]
@@ -77,7 +77,61 @@ router.post('/', ValidateJoi(Schemas.organizacion.create), controller.createOrga
  *       404:
  *         description: Organización no encontrada
  */
-router.get('/:organizacionId/users', controller.getOrganizacionUsers);
+router.get('/:organizacionId/usuarios', controller.getOrganizacionUsers);
+
+/**
+ * @openapi
+ * /organizaciones/{organizacionId}/usuarios/{usuarioId}:
+ *   post:
+ *     summary: Añade un usuario a la organización
+ *     tags: [Organizaciones]
+ *     parameters:
+ *       - in: path
+ *         name: organizacionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ObjectId de la organización
+ *       - in: path
+ *         name: usuarioId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ObjectId del usuario
+ *     responses:
+ *       200:
+ *         description: Usuario añadido
+ *       404:
+ *         description: Organización o usuario no encontrado
+ */
+router.post('/:organizacionId/usuarios/:usuarioId', controller.addUsuarioToOrganizacion);
+
+/**
+ * @openapi
+ * /organizaciones/{organizacionId}/usuarios/{usuarioId}:
+ *   delete:
+ *     summary: Elimina un usuario de la organización
+ *     tags: [Organizaciones]
+ *     parameters:
+ *       - in: path
+ *         name: organizacionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ObjectId de la organización
+ *       - in: path
+ *         name: usuarioId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ObjectId del usuario
+ *     responses:
+ *       200:
+ *         description: Usuario eliminado de la organización
+ *       404:
+ *         description: Organización o usuario no encontrado
+ */
+router.delete('/:organizacionId/usuarios/:usuarioId', controller.removeUsuarioFromOrganizacion);
 /**
  * @openapi
  * /organizaciones/{organizacionId}:

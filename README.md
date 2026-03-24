@@ -162,6 +162,9 @@ El servidor corre en `http://localhost:1337` por defecto. La documentación inte
 | `GET` | `/:organizacionId` | — | — | Obtiene una organización por ID | `200` |
 | `PUT` | `/:organizacionId` | `{ "name": "string" }` | Joi required | Actualiza el nombre de una organización | `201` |
 | `DELETE` | `/:organizacionId` | — | — | Elimina una organización por ID | `201` |
+| `GET` | `/:organizacionId/usuarios` | — | — | Lista usuarios de una organización (404 si no existe) | `200` |
+| `POST` | `/:organizacionId/usuarios/:usuarioId` | — | — | Añade un usuario a una organización | `200` |
+| `DELETE` | `/:organizacionId/usuarios/:usuarioId` | — | — | Quita un usuario de una organización | `200` |
 
 ---
 
@@ -174,6 +177,11 @@ El servidor corre en `http://localhost:1337` por defecto. La documentación inte
 | `GET` | `/:usuarioId` | — | — | Obtiene un usuario por ID (con populate de organización) | `200` |
 | `PUT` | `/:usuarioId` | `{ "name": string, ... }` | Joi required | Actualiza los datos de un usuario | `201` |
 | `DELETE` | `/:usuarioId` | — | — | Elimina un usuario por ID | `201` |
+
+#### Notas de actualización de usuarios
+
+- `PUT /usuarios/:usuarioId` admite payload parcial.
+- Para quitar una organización a un usuario: enviar `{ "organizacion": null }`.
 
 ---
 
